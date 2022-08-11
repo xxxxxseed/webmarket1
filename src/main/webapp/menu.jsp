@@ -12,5 +12,10 @@
 			<li class="nav-item"><a href="./products.jsp" class="nav-link">상품 목록</a></li>
 		</ul>
 	</div>
+	<div>
+		<ul class="navbar-nav">
+			<li class="nav-item"><a href="./addProduct.jsp" class="nav-link">상품 등록</a></li>
+		</ul>
+	</div>
 	
 </nav>

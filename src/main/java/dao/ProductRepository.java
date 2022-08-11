@@ -7,9 +7,11 @@ import vo.Product;
 public class ProductRepository {
 
 	private ArrayList<Product> listOfProducts = new ArrayList<>();
+	//싱글톤 패턴으로 객체 생성
+	private static ProductRepository instance;
 	
 	//생성자
-	public ProductRepository() {
+	private ProductRepository() {
 		Product phone = new Product("P1234", "iphone 6s", 800000);
 		phone.setDescription("4.7-inch 1334X750 Retina HD display 8-megapixel "
 					+ "iSight Camera");
@@ -40,8 +42,36 @@ public class ProductRepository {
 		listOfProducts.add(tablet);
 	}
 	
+	//싱글톤 패턴의 getInstance() 정의
+	public static ProductRepository getInstance() {
+		if(instance == null) {
+			instance = new ProductRepository();
+		}
+		return instance;
+	}
+	
+	//상품 추가
+	public void addProduct(Product product) {
+		listOfProducts.add(product);
+	}
+	
 	//목록 보기
 	public ArrayList<Product> getAllProducts(){
 		return listOfProducts;
 	}
+	
+	//상세 보기
+	public Product getProductById(String productId) {
+		Product productById = null;		//이름이 다른 객체 선언
+		for(int i=0; i<listOfProducts.size(); i++) {
+			Product product = listOfProducts.get(i);
+			String dbProductId = product.getProductId();	//이미 등록된 id
+			if(dbProductId.equals(productId)) {				//외부에서 전달된 id와 같으면
+				productById = product;						//아이디가 같은 상품을 저장
+				break;
+			}
+		}
+		return productById;
+	}
+	
 }
