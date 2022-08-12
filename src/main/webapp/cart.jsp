@@ -11,6 +11,10 @@
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct" crossorigin="anonymous"></script>
 </head>
+<%
+	String cartId = session.getId();	//주문 번호(코드)
+	//out.println(cartId);
+%>
 <body>
 	<jsp:include page="./menu.jsp" />
 	
@@ -25,10 +29,10 @@
 			<table style="width: 100%">
 				<tr>
 					<td align="left">
-						<a href="#" class="btn btn-danger">삭제하기</a>
+						<a href="./deleteCart.jsp" class="btn btn-danger">삭제하기</a>
 					</td>
 					<td align="right">
-						<a href="#" class="btn btn-success">주문하기</a>
+						<a href="./shippingInfo.jsp?cartId=<%=cartId %>" class="btn btn-success">주문하기</a>
 					</td>
 				</tr>
 			</table>
@@ -44,24 +48,29 @@
 					if(cartList == null){
 						cartList = new ArrayList<>();
 					}
-				
+					int sum = 0;
 					for(int i=0; i<cartList.size(); i++){
 						Product product = cartList.get(i);
 						int total = product.getUnitPrice() * product.getQuantity();
-					
+						sum += total;	//총액
 				
 				%>
 				<tr>
-					<td><%=product.getProductId() %></td>
+					<td><%=product.getProductId() %> - <%=product.getPname() %></td>
 					<td><%=product.getUnitPrice() %></td>
 					<td><%=product.getQuantity() %></td>
 					<td><%=total %></td>
+					<td><a href="removeCart.jsp?id=<%=product.getProductId() %>" class="badge badge-danger">삭제</a></td>
 				</tr>
 				
 				<%
 					}
 				%>
+				<tr>
+					<th></th><th></th><th>총액</th><th><%=sum %></th><th></th>
+				</tr>
 			</table>
+			<a href="./products.jsp" class="btn btn-secondary">&laquo; 쇼핑 계속하기</a>
 		</div>
 	</div>
 	<jsp:include page="./footer.jsp" />
